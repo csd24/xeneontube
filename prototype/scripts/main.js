@@ -4,6 +4,10 @@
   let launching = false;
   let fallback;
   function isPreview() { return typeof iCUE !== 'undefined' && iCUE.isPreview === true; }
+  function diagnosticsRequested() { return typeof showDiagnostics !== 'undefined' && showDiagnostics === true; }
+  function maybeOpen() {
+    if (initialized && !diagnosticsRequested()) open();
+  }
   function destination() {
     return typeof startPage !== 'undefined' && startPage === 'mobile' ? 'https://m.youtube.com/' : 'https://www.youtube.com/';
   }
@@ -39,13 +43,18 @@
   }
   $('open').addEventListener('click', open);
   window.addEventListener('resize', update);
+  window.addEventListener('pageshow', event => {
+    // A restored diagnostic document may still remember its previous launch.
+    if (event.persisted) { launching = false; clearTimeout(fallback); }
+    maybeOpen();
+  });
   window.icueEvents = {
     onICUEInitialized() {
       initialized = true;
       update();
-      if (typeof autoOpen !== 'undefined' && autoOpen === true) open();
+      maybeOpen();
     },
-    onDataUpdated: update,
+    onDataUpdated() { update(); maybeOpen(); },
   };
   update();
   if (typeof iCUE_initialized !== 'undefined' && iCUE_initialized) window.icueEvents.onICUEInitialized();

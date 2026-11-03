@@ -7,10 +7,10 @@
 1. Download **XeneonTube-Direct-Experimental.icuewidget**. Keep that exact extension. You do not need the old Windows ZIP, launcher, or `.env` file.
 2. In iCUE, go to Widgets and use **+ above the available-widget list** to import it. The selector name is **XeneonTube Direct (Experimental)**. Add one instance to the actual XENEON EDGE dashboard. Requires iCUE 5.52+ with Widget API 1.9 support.
 3. Approve its declared YouTube/network and speaker permissions. Permissions include YouTube's media, image, Google service, and advertising hosts, but no localhost, file, camera, or microphone access.
-4. On the actual dashboard, tap **Open YouTube in this widget**. A preview intentionally stays on diagnostics. The first question is whether YouTube replaces that page **inside the same widget**, rather than opening a browser elsewhere.
+4. On the actual dashboard, YouTube opens automatically after iCUE initializes the widget. No Open-button tap is needed, including when a dashboard switch recreates the widget. A preview intentionally stays on diagnostics. Verify that the page stays **inside the same widget**, rather than opening a browser elsewhere.
 5. If it loads, search for a video, scroll through results, visit a channel, and play a video. Check touch input, video, audio, and ordinary navigation separately. A loaded home page alone does not establish playback.
 6. While YouTube is visible, inspect the available iCUE settings. Try the dashboard's own size controls if offered. The **Diagnostic page width** control applies only to the original diagnostic page; it is not a solution to width toggling on YouTube. Record whether settings reload the original page, affect YouTube, or have no effect.
-7. Remove the dashboard instance and add it again. If necessary, remove/reimport the experimental widget to restore diagnostics. Try **YouTube interface: Mobile** if Desktop is unusable in the available space. Optionally enable **Open automatically after iCUE initializes** to test reopening behavior; disable it for diagnostics.
+7. Switch away to another dashboard and return. If iCUE recreates the widget, it should reopen YouTube automatically. This does not promise restoring the same video, playback position, or uninterrupted audio. To inspect diagnostics, enable **Stay on diagnostics instead of opening YouTube** in iCUE settings, then reload/re-add the dashboard instance. Disable that setting for normal automatic startup. Try **YouTube interface: Mobile** if Desktop is unusable in the available space.
 
 Network failures after navigation may replace the page with iCUE/Chromium's error screen. The original widget cannot reliably show a fallback after it has unloaded. If it remains visible, its ten-second message explains that navigation did not complete. Denied or revoked permissions require restoring permission before retrying. YouTube may request additional hosts at runtime.
 
@@ -22,6 +22,13 @@ Network failures after navigation may replace the page with iCUE/Chromium's erro
 - Search, scrolling, channel navigation, video, and audio: each works or fails.
 - Whether iCUE settings and dashboard sizing still function while YouTube is visible.
 - Whether removing/readding restores diagnostics; whether Desktop and Mobile differ.
+
+## Changes in 0.2.2
+
+- Declare `googleusercontent.com` on port 443, covering the observed `yt3.googleusercontent.com` prompt under iCUE's documented subdomain matching. The user still approves the permission during import. This should avoid the extra runtime prompt for that host when granted; enforcement needs a real-iCUE check. The unreadable second screenshot does not establish another hostname, so no guessed or unrestricted-host permission was added.
+- Open YouTube by default after native initialization and on recreation of the widget. The old `autoOpen=false` value from earlier versions is no longer consulted. A newly named `showDiagnostics` setting defaults to false; it provides an explicit diagnostic pause.
+- Automated tests recreate the document and confirm no tap is required. They do not emulate the actual iCUE dashboard lifecycle. Playback/session restoration after remote-document destruction is not implemented.
+- Fullscreen remains unresolved. Theater mode has been rejected as a substitute for filling the widget and is not an acceptance criterion.
 
 ## What is and is not established
 

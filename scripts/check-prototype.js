@@ -47,7 +47,7 @@ try {
     console.log('PASS: manual navigation replaces main document; no iframe or popup; original event handlers are gone');
   }
   {
-    const { context, page } = await scenario({ startPage: 'mobile', widgetLayout: 'compact', iCUE_initialized: true });
+    const { context, page } = await scenario({ startPage: 'mobile', widgetLayout: 'compact', iCUE_initialized: true, showDiagnostics: true });
     assert.equal(await page.locator('#panel').getAttribute('data-size'), 'compact');
     await page.evaluate(() => { window.widgetLayout = 'wide'; window.icueEvents.onDataUpdated(); });
     assert.equal(await page.locator('#panel').getAttribute('data-size'), 'wide');
@@ -58,7 +58,7 @@ try {
     console.log('PASS: mobile destination and local diagnostic width updates');
   }
   {
-    const { context, page } = await scenario({ autoOpen: true, iCUE_initialized: false });
+    const { context, page } = await scenario({ iCUE_initialized: false });
     assert.equal(page.url(), `${base}/`);
     await page.evaluate(() => window.icueEvents.onICUEInitialized());
     await page.locator('#remote').waitFor();
@@ -67,13 +67,17 @@ try {
     console.log('PASS: automatic mode waits for iCUE initialization');
   }
   {
-    const { context, page } = await scenario({ autoOpen: true, iCUE_initialized: true });
+    // Existing installs may still inject the old autoOpen=false setting. It must
+    // not prevent the new default behavior when the widget is recreated.
+    const { context, page } = await scenario({ autoOpen: false, iCUE_initialized: true });
+    await page.locator('#remote').waitFor();
+    await page.goto(base);
     await page.locator('#remote').waitFor();
     await context.close();
-    console.log('PASS: late script loading detects an already initialized host');
+    console.log('PASS: initialized host and recreated dashboard both reopen without a click, even with legacy autoOpen=false');
   }
   {
-    const { context, page } = await scenario({ autoOpen: true, iCUE_initialized: true, iCUE: { isPreview: true } });
+    const { context, page } = await scenario({ iCUE_initialized: true, iCUE: { isPreview: true } });
     assert.ok(await page.locator('#open').isDisabled());
     assert.equal(page.url(), `${base}/`);
     await page.evaluate(() => window.icueEvents.onDataUpdated());
@@ -81,6 +85,18 @@ try {
     await context.close();
     console.log('PASS: preview suppresses navigation, including automatic mode');
   }
+  {
+    const { context, page } = await scenario({ showDiagnostics: true, iCUE_initialized: true });
+    assert.equal(page.url(), `${base}/`);
+    await page.evaluate(() => { window.showDiagnostics = false; window.icueEvents.onDataUpdated(); });
+    await page.locator('#remote').waitFor();
+    await context.close();
+    console.log('PASS: explicit diagnostics setting pauses automatic navigation until disabled');
+  }
+  const manifest = JSON.parse(await readFile(new URL('../prototype/manifest.json', import.meta.url), 'utf8'));
+  assert.ok(manifest.permissions.some(p => p.type === 'url' && p.domain === 'googleusercontent.com' && p.port === 443));
+  assert.ok(!manifest.permissions.some(p => p.domain === 'any'));
+  console.log('PASS: observed googleusercontent.com host family is declared without unrestricted host access');
 } finally {
   await browser?.close(); server.closeAllConnections();
   await new Promise(resolve => server.close(resolve));

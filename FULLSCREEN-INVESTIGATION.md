@@ -26,9 +26,9 @@ The initial diagnostic page now shows `document.fullscreenEnabled`. It reads the
 
 No fullscreen fix is claimed. After main-frame navigation, the original scripts are gone and cannot restyle YouTube or intercept its player button. Injecting a handler into the initial page would not survive that navigation. No unsupported permission, YouTube source rewrite, or browser security override was added.
 
-## Immediate workaround to try
+## Theater mode is not a solution
 
-Use YouTube's **Theater mode** (wide-player icon, or press **T** with the video page focused). This is a YouTube-controlled page layout, not native fullscreen. It may improve use of the available width but does not guarantee filling the widget's height. It remains untested in this user's iCUE setup.
+The user explicitly reports that Theater mode is not an adequate substitute. It changes YouTube's page layout and does not guarantee filling the widget height. The requirement remains a fullscreen player constrained to the current widget viewport. No fullscreen fix is claimed in 0.2.2.
 
 ## Next decision
 
