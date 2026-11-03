@@ -3,7 +3,7 @@
   "id": "com.csd24.xeneontube.direct",
   "name": "XeneonTube Direct (Experimental)",
   "description": "Import-only YouTube navigation experiment. Browsing, video, audio, and touch reported working; fullscreen-in-widget and width control remain unresolved.",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "preview_icon": "resources/icon.svg",
   "min_app_version": "5.52",
   "min_framework_version": "1.9.0",

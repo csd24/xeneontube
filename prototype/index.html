@@ -15,15 +15,17 @@
 </head>
 <body>
   <main id="panel" data-size="auto">
-    <p class="badge">EXPERIMENTAL · NO API KEY · NO COMPANION</p>
+    <p class="badge">VERSION 0.2.4 · EXPERIMENTAL · NO API KEY · NO COMPANION</p>
     <h1>XeneonTube Direct</h1>
-    <p>YouTube opens automatically when iCUE initializes this widget. Enable diagnostics in its settings to stay on this page.</p>
+    <p>YouTube opens automatically in iCUE, including when this page is restored. Enable diagnostics in its settings to stay on this page.</p>
     <button id="open" type="button">Open YouTube in this widget</button>
     <p id="status" role="status" aria-live="polite">Ready to test.</p>
     <details>
       <summary>Diagnostics and recovery</summary>
       <dl><dt>iCUE API</dt><dd id="api">Not initialized</dd><dt>Viewport</dt><dd id="viewport"></dd><dt>Fullscreen API</dt><dd id="fullscreen"></dd><dt>Destination</dt><dd id="destination"></dd><dt>Last attempt</dt><dd id="attempt">None on this diagnostic page</dd></dl>
       <p>The fullscreen flag describes this diagnostic document only. If disabled, the host or document policy prevents native fullscreen here. If enabled, iCUE must still accept each request; this does not prove YouTube fullscreen works.</p>
+      <label for="media-report">Media support reported by this browser (not a playback test)</label>
+      <textarea id="media-report" rows="10" readonly spellcheck="false"></textarea>
       <p>After navigation, this page and its scripts are replaced. Its width preset does not control YouTube. Test the dashboard's own sizing controls separately.</p>
       <p>If blocked, allow the widget's network permissions and retry. To stay on diagnostics, enable its setting in iCUE before reloading/re-adding the dashboard instance. Normal startup opens YouTube automatically.</p>
     </details>

@@ -5,8 +5,13 @@
   let fallback;
   function isPreview() { return typeof iCUE !== 'undefined' && iCUE.isPreview === true; }
   function diagnosticsRequested() { return typeof showDiagnostics !== 'undefined' && showDiagnostics === true; }
+  function hostDetected() {
+    return initialized || typeof iCUE !== 'undefined' || typeof iCUE_initialized !== 'undefined';
+  }
   function maybeOpen() {
-    if (initialized && !diagnosticsRequested()) open();
+    // iCUE can restore/recreate the document without sending initialization again.
+    // Its injected globals identify the host even while the ready flag is false.
+    if (hostDetected() && !diagnosticsRequested()) open();
   }
   function destination() {
     return typeof startPage !== 'undefined' && startPage === 'mobile' ? 'https://m.youtube.com/' : 'https://www.youtube.com/';
@@ -48,6 +53,10 @@
     if (event.persisted) { launching = false; clearTimeout(fallback); }
     maybeOpen();
   });
+  window.addEventListener('focus', maybeOpen);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') maybeOpen();
+  });
   window.icueEvents = {
     onICUEInitialized() {
       initialized = true;
@@ -57,5 +66,26 @@
     onDataUpdated() { update(); maybeOpen(); },
   };
   update();
+  const video = document.createElement('video');
+  const audio = document.createElement('audio');
+  const formats = [
+    'video/mp4; codecs="avc1.42E01E"',
+    'video/mp4; codecs="avc1.640028"',
+    'audio/mp4; codecs="mp4a.40.2"',
+    'video/webm; codecs="vp8"',
+    'video/webm; codecs="vp9"',
+    'audio/webm; codecs="opus"',
+  ];
+  const report = {
+    build: '0.2.4', userAgent: navigator.userAgent,
+    mediaSourceAvailable: typeof MediaSource !== 'undefined',
+    formats: formats.map(type => {
+      let mediaSource = 'unavailable';
+      try { if (typeof MediaSource !== 'undefined' && typeof MediaSource.isTypeSupported === 'function') mediaSource = MediaSource.isTypeSupported(type); } catch { mediaSource = 'error'; }
+      return { type, canPlayType: (type.startsWith('audio/') ? audio : video).canPlayType(type) || 'unsupported', mediaSource };
+    }),
+  };
+  $('media-report').value = JSON.stringify(report, null, 2);
   if (typeof iCUE_initialized !== 'undefined' && iCUE_initialized) window.icueEvents.onICUEInitialized();
+  else maybeOpen();
 })();

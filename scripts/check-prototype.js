@@ -59,12 +59,12 @@ try {
   }
   {
     const { context, page } = await scenario({ iCUE_initialized: false });
-    assert.equal(page.url(), `${base}/`);
-    await page.evaluate(() => window.icueEvents.onICUEInitialized());
     await page.locator('#remote').waitFor();
     assert.equal(page.url(), 'https://www.youtube.com/');
+    await page.goto(base);
+    await page.locator('#remote').waitFor();
     await context.close();
-    console.log('PASS: automatic mode waits for iCUE initialization');
+    console.log('PASS: fresh and recreated host documents open with the ready flag false, without initialization callbacks');
   }
   {
     // Existing installs may still inject the old autoOpen=false setting. It must
@@ -88,10 +88,28 @@ try {
   {
     const { context, page } = await scenario({ showDiagnostics: true, iCUE_initialized: true });
     assert.equal(page.url(), `${base}/`);
+    const report = JSON.parse(await page.locator('#media-report').inputValue());
+    assert.equal(report.build, '0.2.4');
+    assert.equal(report.formats.length, 6);
+    assert.equal(report.mediaSourceAvailable, await page.evaluate(() => typeof MediaSource !== 'undefined'));
+    for (const format of report.formats) {
+      assert.equal(format.canPlayType, await page.evaluate(type => document.createElement(type.startsWith('audio/') ? 'audio' : 'video').canPlayType(type) || 'unsupported', format.type));
+    }
     await page.evaluate(() => { window.showDiagnostics = false; window.icueEvents.onDataUpdated(); });
     await page.locator('#remote').waitFor();
     await context.close();
     console.log('PASS: explicit diagnostics setting pauses automatic navigation until disabled');
+  }
+  for (const lifecycle of ['pageshow', 'visibilitychange', 'focus']) {
+    const { context, page } = await scenario();
+    await page.evaluate(type => {
+      window.iCUE = { isPreview: false };
+      if (type === 'visibilitychange') document.dispatchEvent(new Event(type));
+      else window.dispatchEvent(type === 'pageshow' ? new PageTransitionEvent(type, { persisted: true }) : new Event(type));
+    }, lifecycle);
+    await page.locator('#remote').waitFor();
+    await context.close();
+    console.log(`PASS: ${lifecycle} retries navigation when host globals are available without initialization`);
   }
   const manifest = JSON.parse(await readFile(new URL('../prototype/manifest.json', import.meta.url), 'utf8'));
   assert.ok(manifest.permissions.some(p => p.type === 'url' && p.domain === 'googleusercontent.com' && p.port === 443));

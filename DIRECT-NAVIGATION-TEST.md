@@ -7,7 +7,7 @@
 1. Download **XeneonTube-Direct-Experimental.icuewidget**. Keep that exact extension. You do not need the old Windows ZIP, launcher, or `.env` file.
 2. In iCUE, go to Widgets and use **+ above the available-widget list** to import it. The selector name is **XeneonTube Direct (Experimental)**. Add one instance to the actual XENEON EDGE dashboard. Requires iCUE 5.52+ with Widget API 1.9 support.
 3. Approve its declared YouTube/network and speaker permissions. Permissions include YouTube's media, image, Google service, and advertising hosts, but no localhost, file, camera, or microphone access.
-4. On the actual dashboard, YouTube opens automatically after iCUE initializes the widget. No Open-button tap is needed, including when a dashboard switch recreates the widget. A preview intentionally stays on diagnostics. Verify that the page stays **inside the same widget**, rather than opening a browser elsewhere.
+4. On the actual dashboard, YouTube opens automatically when the injected host globals identify an actual iCUE widget, even if the initialization callback is not repeated. No Open-button tap is needed, including when a dashboard switch recreates the widget. A preview intentionally stays on diagnostics. Verify that the page stays **inside the same widget**, rather than opening a browser elsewhere.
 5. If it loads, search for a video, scroll through results, visit a channel, and play a video. Check touch input, video, audio, and ordinary navigation separately. A loaded home page alone does not establish playback.
 6. While YouTube is visible, inspect the available iCUE settings. Try the dashboard's own size controls if offered. The **Diagnostic page width** control applies only to the original diagnostic page; it is not a solution to width toggling on YouTube. Record whether settings reload the original page, affect YouTube, or have no effect.
 7. Switch away to another dashboard and return. If iCUE recreates the widget, it should reopen YouTube automatically. This does not promise restoring the same video, playback position, or uninterrupted audio. To inspect diagnostics, enable **Stay on diagnostics instead of opening YouTube** in iCUE settings, then reload/re-add the dashboard instance. Disable that setting for normal automatic startup. Try **YouTube interface: Mobile** if Desktop is unusable in the available space.
@@ -22,6 +22,16 @@ Network failures after navigation may replace the page with iCUE/Chromium's erro
 - Search, scrolling, channel navigation, video, and audio: each works or fails.
 - Whether iCUE settings and dashboard sizing still function while YouTube is visible.
 - Whether removing/readding restores diagnostics; whether Desktop and Mobile differ.
+
+## Changes in 0.2.4
+
+The user reports the extra Open-button tap still occurs on dashboard return with the previous implementation. A missing/repeated initialization callback is a hypothesis, not a confirmed diagnosis. Old retained instances or an explicitly enabled diagnostics setting can also explain a visible landing page.
+
+The launcher no longer requires initialization to finish before opening YouTube. It recognizes iCUE's injected globals even when the ready flag is false. Startup, page-show (including a restored diagnostic document), visibility-return, and focus all attempt navigation while preserving a guard against duplicate attempts. Previews and the explicit **Stay on diagnostics** setting still suppress automatic opening. No host globals means no automatic navigation in a plain-browser diagnostic test.
+
+The landing page now displays **VERSION 0.2.4** to identify stale builds. Keep **Stay on diagnostics instead of opening YouTube** off for the dashboard-return test. A native iCUE check remains necessary. Restoring the previous video/position is not implemented.
+
+A read-only media capability report helps investigate [the reported live-playback failure](LIVE-PLAYBACK-INVESTIGATION.md). This is not a live-video or fullscreen fix. It adds no permissions. In Chromium simulations, recreated documents with a false ready flag and no callbacks open automatically; page-show, visibility-return, and focus paths also pass. These simulations do not reproduce every iCUE lifecycle.
 
 ## Changes in 0.2.3
 
