@@ -1,6 +1,6 @@
 # Current direction: import-only experiment
 
-The current goal is one imported iCUE widget with no Google project, API key, or companion app. The direct-navigation prototype is in `prototype/`. Version 0.2.2 opens YouTube automatically when the widget is recreated and declares the observed Google user-content image host at import. Download [XeneonTube-Direct-Experimental.icuewidget](XeneonTube-Direct-Experimental.icuewidget) using GitHub’s Download raw file button. Read [the test instructions](DIRECT-NAVIGATION-TEST.md) and build it with `npm run prototype:package`.
+The current goal is one imported iCUE widget with no Google project, API key, or companion app. The direct-navigation prototype is in `prototype/`. It opens YouTube automatically when the widget is recreated. Version 0.2.3 adds the observed `csp.withgoogle.com` host to import permissions, alongside the previously added Google user-content image host. Download [version 0.2.3](XeneonTube-Direct-0.2.3.icuewidget) using GitHub’s Download raw file button. Read [the test instructions](DIRECT-NAVIGATION-TEST.md) and build it with `npm run prototype:package`.
 
 It is **experimental**. The user reports working in-widget navigation, video, sound, touch, and mouse input. YouTube's fullscreen button does nothing. Fullscreen within the widget and custom width controls remain unresolved. See [the fullscreen investigation](FULLSCREEN-INVESTIGATION.md). These hardware results are user-reported, not reproduced in the cloud environment.
 

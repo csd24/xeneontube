@@ -23,6 +23,12 @@ Network failures after navigation may replace the page with iCUE/Chromium's erro
 - Whether iCUE settings and dashboard sizing still function while YouTube is visible.
 - Whether removing/readding restores diagnostics; whether Desktop and Mobile differ.
 
+## Changes in 0.2.3
+
+Declare the newly observed `csp.withgoogle.com` host on port 443. This is a different host from the image host covered in 0.2.2. Its name is consistent with Google's Content Security Policy reporting; the specific request path or payload was not inspected. The user reports that navigating and playing video continue while the prompt is ignored, so the prompt alone does not establish a playback failure.
+
+The new permission is reviewed during import. If granted and applied by iCUE, it should avoid a separate runtime prompt for this host. It neither silently approves permission nor disables security checks. Only the exact observed host was added, not the entire `withgoogle.com` family or unrestricted networking. Actual prompt suppression remains unverified on hardware. Other, different hosts can still produce their own prompts. Reopening behavior and fullscreen limitations are unchanged.
+
 ## Changes in 0.2.2
 
 - Declare `googleusercontent.com` on port 443, covering the observed `yt3.googleusercontent.com` prompt under iCUE's documented subdomain matching. The user still approves the permission during import. This should avoid the extra runtime prompt for that host when granted; enforcement needs a real-iCUE check. The unreadable second screenshot does not establish another hostname, so no guessed or unrestricted-host permission was added.
