@@ -29,7 +29,7 @@ The user reports the extra Open-button tap still occurs on dashboard return with
 
 The launcher no longer requires initialization to finish before opening YouTube. It recognizes iCUE's injected globals even when the ready flag is false. Startup, page-show (including a restored diagnostic document), visibility-return, and focus all attempt navigation while preserving a guard against duplicate attempts. Previews and the explicit **Stay on diagnostics** setting still suppress automatic opening. No host globals means no automatic navigation in a plain-browser diagnostic test.
 
-The landing page now displays **VERSION 0.2.4** to identify stale builds. Keep **Stay on diagnostics instead of opening YouTube** off for the dashboard-return test. A native iCUE check remains necessary. Restoring the previous video/position is not implemented.
+The landing page now displays **VERSION 0.2.4** to identify stale builds. Keep **Stay on diagnostics instead of opening YouTube** off for the dashboard-return test. The user subsequently confirms that dashboard return reopens YouTube without the green-button tap. The session is destroyed on dashboard switches; the user explicitly accepts that reset. Restoring the previous video/position is not implemented and is not an active requirement unless requested again.
 
 A read-only media capability report helps investigate [the reported live-playback failure](LIVE-PLAYBACK-INVESTIGATION.md). This is not a live-video or fullscreen fix. It adds no permissions. In Chromium simulations, recreated documents with a false ready flag and no callbacks open automatically; page-show, visibility-return, and focus paths also pass. These simulations do not reproduce every iCUE lifecycle.
 
@@ -45,6 +45,10 @@ The new permission is reviewed during import. If granted and applied by iCUE, it
 - Open YouTube by default after native initialization and on recreation of the widget. The old `autoOpen=false` value from earlier versions is no longer consulted. A newly named `showDiagnostics` setting defaults to false; it provides an explicit diagnostic pause.
 - Automated tests recreate the document and confirm no tap is required. They do not emulate the actual iCUE dashboard lifecycle. Playback/session restoration after remote-document destruction is not implemented.
 - Fullscreen remains unresolved. Theater mode has been rejected as a substitute for filling the widget and is not an acceptance criterion.
+
+## Remaining requirements and completed audit
+
+Live streaming is explicitly out of scope. Automatic reopening and the accepted session reset are confirmed by the user. Fullscreen inside the widget and custom width switching remain unresolved. The [completed host-control audit](HOST-CONTROL-AUDIT.md) found no supported public widget mechanism to implement those controls after remote navigation. No further diagnostic build is being requested for that API gap; the existing 0.2.4 package remains current.
 
 ## What is and is not established
 

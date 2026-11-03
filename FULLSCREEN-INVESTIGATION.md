@@ -30,15 +30,8 @@ No fullscreen fix is claimed. After main-frame navigation, the original scripts 
 
 The user explicitly reports that Theater mode is not an adequate substitute. It changes YouTube's page layout and does not guarantee filling the widget height. The requirement remains a fullscreen player constrained to the current widget viewport. No fullscreen fix is claimed in 0.2.2.
 
-## Next decision
+## Completed public-API investigation
 
-Collect the exact iCUE version and the diagnostic fullscreen flag. If updating iCUE changes behavior, record the result; no available evidence establishes that a newer version fixes it.
+See [HOST-CONTROL-AUDIT.md](HOST-CONTROL-AUDIT.md) for the audit of all 31 current widget documentation pages, public builder references, and public runner repositories. No exposed fullscreen acceptance, persistent remote-page script hook, or dashboard-slot sizing operation was found. The independent Windows runner is Electron software and does not expose native iCUE internals.
 
-If native fullscreen remains unavailable, ask Corsair whether dashboard widgets can enable fullscreen support and accept requests while retaining the current view bounds. The required host behavior is:
-
-1. Enable QtWebEngine fullscreen support on the dashboard's web view.
-2. Accept valid fullscreen requests from that widget's content, including exit requests.
-3. Keep the web view at its existing dashboard geometry instead of resizing the app window.
-4. Verify that entering/exiting restores the player and browsing page and that other widgets remain unchanged.
-
-This is host-side guidance, not a patch to iCUE or a supported widget-manifest setting. No message has been sent to Corsair. Until a supported host control is identified, a reliable fill-widget implementation has not been established for the direct-navigation architecture.
+This establishes the current supported-API limitation, not the exact native cause of the user's failed fullscreen request. There is no justified widget-code fix to package from the evidence available. The existing 0.2.4 build remains current. The audit includes a concrete host-side change request for Corsair; no support message was sent. More diagnostic-only installs are not needed to establish this API gap.
