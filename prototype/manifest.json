@@ -1,0 +1,25 @@
+{
+  "author": "csd24",
+  "id": "com.csd24.xeneontube.direct",
+  "name": "XeneonTube Direct (Experimental)",
+  "description": "Experimental import-only YouTube navigation test. No key or companion. iCUE browsing, playback, and width control after navigation are unverified.",
+  "version": "0.2.0",
+  "preview_icon": "resources/icon.svg",
+  "min_app_version": "5.52",
+  "min_framework_version": "1.9.0",
+  "os": [{ "platform": "windows" }],
+  "supported_devices": [{ "type": "dashboard_lcd" }],
+  "interactive": true,
+  "permissions": [
+    { "type": "url", "domain": "youtube.com", "port": 443 },
+    { "type": "url", "domain": "ytimg.com", "port": 443 },
+    { "type": "url", "domain": "googlevideo.com", "port": 443 },
+    { "type": "url", "domain": "ggpht.com", "port": 443 },
+    { "type": "url", "domain": "google.com", "port": 443 },
+    { "type": "url", "domain": "gstatic.com", "port": 443 },
+    { "type": "url", "domain": "googleapis.com", "port": 443 },
+    { "type": "url", "domain": "doubleclick.net", "port": 443 },
+    { "type": "url", "domain": "googlesyndication.com", "port": 443 },
+    { "type": "speaker" }
+  ]
+}

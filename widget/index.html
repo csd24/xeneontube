@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>'XeneonTube'</title>
+  <link rel="icon" type="image/svg+xml" href="resources/icon.svg" />
+  <link rel="stylesheet" href="styles/widget.css" />
+  <meta name="x-icue-property" content="widgetLayout" data-label="'Layout'" data-type="combobox" data-default="'auto'" data-values="[{'key':'auto','value':'Automatic'},{'key':'compact','value':'Compact'},{'key':'medium','value':'Medium'},{'key':'wide','value':'Wide'}]" />
+  <script type="application/json" id="x-icue-groups">
+    [{ "title": "'XeneonTube'", "properties": ["widgetLayout"], "info": "'Start the XeneonTube companion on this PC before opening the widget. Layout adapts content inside the dashboard panel.'" }]
+  </script>
+</head>
+<body>
+  <iframe id="app" title="XeneonTube video browser" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  <section id="connection" role="status" aria-live="polite">
+    <div class="mark">&#9654;</div>
+    <h1>XeneonTube</h1>
+    <p id="message">Connecting to the companion service…</p>
+    <p>Run <strong>Start-XeneonTube.cmd</strong> from your XeneonTube folder on this Windows PC. Allow the widget's local network permission in iCUE.</p>
+    <button id="retry" type="button">Reconnect</button>
+  </section>
+  <script src="scripts/widget.js"></script>
+</body>
+</html>

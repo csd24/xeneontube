@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>'XeneonTube Direct (Experimental)'</title>
+  <link rel="icon" type="image/svg+xml" href="resources/icon.svg" />
+  <link rel="stylesheet" href="styles/main.css" />
+  <meta name="x-icue-property" content="startPage" data-label="'YouTube interface'" data-type="combobox" data-default="'desktop'" data-values="[{'key':'desktop','value':'Desktop'},{'key':'mobile','value':'Mobile'}]" />
+  <meta name="x-icue-property" content="autoOpen" data-label="'Open automatically after iCUE initializes'" data-type="switch" data-default="false" />
+  <meta name="x-icue-property" content="widgetLayout" data-label="'Diagnostic page width (not YouTube width)'" data-type="combobox" data-default="'auto'" data-values="['auto','compact','medium','wide']" />
+  <script type="application/json" id="x-icue-groups">
+    [{"title":"'XeneonTube Direct (Experimental)'","properties":["startPage","autoOpen","widgetLayout"],"info":"'Compatibility test: navigation replaces this page. Settings and width control on YouTube are not yet established. Re-add the widget to return to diagnostics.'"}]
+  </script>
+</head>
+<body>
+  <main id="panel" data-size="auto">
+    <p class="badge">EXPERIMENTAL · NO API KEY · NO COMPANION</p>
+    <h1>XeneonTube Direct</h1>
+    <p>This test opens YouTube in the widget's main view. Search and playback depend on iCUE allowing the navigation.</p>
+    <button id="open" type="button">Open YouTube in this widget</button>
+    <p id="status" role="status" aria-live="polite">Ready to test.</p>
+    <details>
+      <summary>Diagnostics and recovery</summary>
+      <dl><dt>iCUE API</dt><dd id="api">Not initialized</dd><dt>Viewport</dt><dd id="viewport"></dd><dt>Destination</dt><dd id="destination"></dd><dt>Last attempt</dt><dd id="attempt">None on this diagnostic page</dd></dl>
+      <p>After navigation, this page and its scripts are replaced. Its width preset does not control YouTube. Test the dashboard's own sizing controls separately.</p>
+      <p>If blocked, allow the widget's network permissions and retry. If navigation leaves a blank page, remove this dashboard instance and add it again. Remove/reimport the experimental widget if iCUE restores the remote page.</p>
+    </details>
+  </main>
+  <script src="scripts/main.js"></script>
+</body>
+</html>
