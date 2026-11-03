@@ -13,6 +13,7 @@
     $('api').textContent = initialized ? 'Initialized' : 'Not initialized (manual navigation is available)';
     $('destination').textContent = destination();
     $('viewport').textContent = `${innerWidth} × ${innerHeight} CSS pixels`;
+    $('fullscreen').textContent = document.fullscreenEnabled === true ? 'Enabled for this document; host acceptance still required' : 'Disabled or unavailable for this document';
     $('open').disabled = isPreview();
     if (isPreview()) $('status').textContent = 'Preview stays on diagnostics. Test on the real dashboard instance.';
   }

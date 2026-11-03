@@ -25,6 +25,8 @@ Network failures after navigation may replace the page with iCUE/Chromium's erro
 
 ## What is and is not established
 
+**User hardware report:** navigation, video, audio, touch, and mouse input work. Clicking YouTube's fullscreen button does nothing. The 0.2.1 diagnostic page displays the standard browser fullscreen-support flag; it does not fix fullscreen. See [FULLSCREEN-INVESTIGATION.md](FULLSCREEN-INVESTIGATION.md) for the evidence, a Theater-mode workaround to try, and the suspected host-side dependency. Width toggling after navigation remains unverified.
+
 The iCUE CLI validates and packages the widget. Automated Chromium tests use a locally served diagnostic page and a synthetic remote destination to verify manual/automatic main-frame navigation, preview suppression, and settings before navigation. They do not contact YouTube or emulate QtWebEngine/iCUE. This environment's network policy blocks youtube.com, and Windows/iCUE hardware is unavailable here.
 
 Navigation replaces the original document and its scripts in an ordinary browser. This prototype neither injects scripts into YouTube nor bypasses iframe restrictions. There is no demonstrated SDK mechanism to preserve the custom width toggle on the remote site. **Browsing/playback and width switching remain separate acceptance requirements; success on one does not establish the other.**

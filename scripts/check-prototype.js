@@ -36,6 +36,7 @@ try {
   {
     const { context, page } = await scenario();
     assert.equal(await page.locator('iframe').count(), 0);
+    assert.equal(await page.locator('#fullscreen').textContent(), await page.evaluate(() => document.fullscreenEnabled === true ? 'Enabled for this document; host acceptance still required' : 'Disabled or unavailable for this document'));
     await page.getByRole('button', { name: 'Open YouTube in this widget' }).click();
     await page.locator('#remote').waitFor();
     assert.equal(page.url(), 'https://www.youtube.com/');

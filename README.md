@@ -2,7 +2,7 @@
 
 The current goal is one imported iCUE widget with no Google project, API key, or companion app. The direct-navigation prototype is in `prototype/`. Download [XeneonTube-Direct-Experimental.icuewidget](XeneonTube-Direct-Experimental.icuewidget) using GitHub’s Download raw file button. Read [the test instructions](DIRECT-NAVIGATION-TEST.md) and build it with `npm run prototype:package`.
 
-It is **experimental**: actual iCUE navigation, YouTube playback, and width controls after navigation remain unverified. It is not yet a completed replacement.
+It is **experimental**. The user reports working in-widget navigation, video, sound, touch, and mouse input. YouTube's fullscreen button does nothing. Fullscreen within the widget and custom width controls remain unresolved. See [the fullscreen investigation](FULLSCREEN-INVESTIGATION.md). These hardware results are user-reported, not reproduced in the cloud environment.
 
 The documentation below describes the **previous API/companion implementation**, retained for reference. It is not the installation process for the import-only prototype.
 
